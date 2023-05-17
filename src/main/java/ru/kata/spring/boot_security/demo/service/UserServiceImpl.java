@@ -22,35 +22,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.saveAndFlush(user);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void updateUser(User user) {
         userRepository.saveAndFlush(user);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
 
     @Override
+    @Transactional
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }

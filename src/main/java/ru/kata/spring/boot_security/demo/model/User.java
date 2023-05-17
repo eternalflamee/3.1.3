@@ -1,10 +1,12 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,17 +18,29 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "password")
+    @Column(name = "password", unique = true)
     private String password;
 
     @Column(name = "age")
     private Integer age;
+
+    public User() {
+
+    }
+
+    public User(String username, String surname, String password, Integer age, Set<Role> roles) {
+        this.username = username;
+        this.surname = surname;
+        this.password = password;
+        this.age = age;
+        this.roles = roles;
+    }
 
     @ManyToMany
     @JoinTable(name = "users_roles",
@@ -81,7 +95,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+
+        final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("USER");
+        return Collections.singletonList(simpleGrantedAuthority);
     }
 
     @Override

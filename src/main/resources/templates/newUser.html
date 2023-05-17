@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin panel</title>
+</head>
+<body>
+<a href="/logout">Logout</a>
+<br>
+<br>
+<div>
+  <h1>Admin panel</h1>
+  <br>
+  <a href="/admin">Users table</a>
+  <br>
+  <h3>Add new user</h3>
+  <br>
+  <form method="post" th:action="@{/admin/newUser}" th:object="${user}">
+    <div>
+      <label for="name">First Name</label>
+      <input id="name" placeholder="Enter Name" required autocomplete="off"
+             th:field="*{username}" type="text"/>
+    </div>
+    <div>
+      <label for="surname">Last name</label>
+      <input id="surname" placeholder="Enter Surname" required autocomplete="off"
+             th:field="*{surname}" type="text"/>
+    </div>
+    <div>
+      <label for="age">Age</label>
+      <input id="age" placeholder="Enter Age" required autocomplete="off"
+             th:field="*{age}" type="text"/>
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input id="password" placeholder="Enter Password" required autocomplete="off"
+             th:field="*{password}" type="text"/>
+    </div>
+    <p>
+      <label>Role
+        <input type="checkbox" name="roles"
+               th:each="role : ${roles}"
+               th:text="${role.toString()}"
+               th:value="${role.id}"
+               th:field="*{roles}"
+        />
+      </label>
+    </p>
+    <div>
+      <input type="submit" value="Add new user">
+    </div>
+  </form>
+</div>
+</body>
+</html>
